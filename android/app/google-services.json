@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "719858389922",
+    "project_id": "mobdevproject-5c665",
+    "storage_bucket": "mobdevproject-5c665.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:719858389922:android:2e1d25b35af2b6104fd8fb",
+        "android_client_info": {
+          "package_name": "co.MobDev.flash_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "719858389922-dt5anf08s61m2s5ij7rjrmhehk637vae.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSR_XrVish-yd_Q3R0l7FpUWQau_V4ZTE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "719858389922-dt5anf08s61m2s5ij7rjrmhehk637vae.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
