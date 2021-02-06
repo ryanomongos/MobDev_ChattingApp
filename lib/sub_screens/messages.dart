@@ -45,8 +45,9 @@ class _MessagesState extends State<Messages> {
                 snapshot.data.data()['conversations'].length == 0) {
               return Center(child: Text('Click "+" to start a conversation'));
             }
-            List<Widget> convos = [];
 
+            List<Widget> convos = [];
+            
             for (DocumentReference conversation
                 in snapshot.data.data()['conversations']) {
               convos.add(_conversationItemBuidler(context, conversation));
