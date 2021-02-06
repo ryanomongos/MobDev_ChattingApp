@@ -37,10 +37,12 @@ class _MessagesState extends State<Messages> {
         body: StreamBuilder<DocumentSnapshot>(
           stream: _firestore.collection("users").doc("${user.uid}").snapshots(),
           builder: (context, snapshot) {
+            userData = snapshot.data;
             if (!snapshot.hasData) {
               return (Text('No Data Found'));
             }
-            if (snapshot.data.data()['conversations'] == null || snapshot.data.data()['conversations'].length == 0) {
+            if (snapshot.data.data()['conversations'] == null ||
+                snapshot.data.data()['conversations'].length == 0) {
               return Center(child: Text('Click "+" to start a conversation'));
             }
             List<Widget> convos = [];
@@ -142,6 +144,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   }
 
   Future addNewConversation(String name, BuildContext context) async {
+    print("UserData: $userData");
     DocumentReference newChat = await _firestore.collection('group_chats').add({
       'name': name,
       'createdAt': DateTime.now(),
