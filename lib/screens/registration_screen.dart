@@ -57,13 +57,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               SizedBox(
                 height: 8.0,
               ),
-              TextField(
+              TextFormField(
+                key: ValueKey('password'),
+                validator: (value) {
+                  if (value.isEmpty || value.length < 7) {
+                    return 'Password must be at least 7 characters long.';
+                  }
+                  return null;
+                },
+                decoration: kTextFieldDecoration.copyWith(hintText: 'Enter your password'),
                 obscureText: true,
                 textAlign: TextAlign.center,
                 onChanged: (value) {
                   password = value;
                 },
-                decoration: kTextFieldDecoration.copyWith(hintText: 'Enter your password'),
               ),
               SizedBox(
                 height: 24.0,

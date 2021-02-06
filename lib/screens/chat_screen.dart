@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flash_chat/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flash_chat/components/messageBubbles.dart';
 
 final _firestore = FirebaseFirestore.instance;
 User loggedInUser;
@@ -67,6 +68,8 @@ class _ChatScreenState extends State<ChatScreen> {
                   Expanded(
                     child: TextField(
                       controller: messageTextController,
+                      autocorrect: true,
+                      enableSuggestions: true,
                       onChanged: (value) {
                         messageText = value;
                       },
@@ -74,17 +77,15 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ),
                   FlatButton(
+                    child: Icon(Icons.send),
                     onPressed: () {
                       messageTextController.clear();
                       _firestore.collection('messages').add({
                         'text': messageText,
                         'sender' : loggedInUser.email,
+                        'createdAt': Timestamp.now(),
                       });
                     },
-                    child: Text(
-                      'Send',
-                      style: kSendButtonTextStyle,
-                    ),
                   ),
                 ],
               ),
@@ -109,7 +110,7 @@ class MessagesStream extends StatelessWidget {
             ),
           );
         }else{
-          final messages = snapshot.data.docs.reversed;
+          final messages = snapshot.data.docs;
           List<MessageBubble> messageBubbles = [];
           for(var message in messages){
             final messageText = message.get('text');
@@ -133,59 +134,6 @@ class MessagesStream extends StatelessWidget {
           );
         }
       },
-    );
-  }
-}
-
-
-class MessageBubble extends StatelessWidget {
-  MessageBubble({this.sender, this.text, this.isMe});
-
-  final String text;
-  final String sender;
-  final bool isMe;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-        children: [
-          Text(
-            sender,
-            style: TextStyle(
-              fontSize: 12.0,
-              color: Colors.black,
-            ),
-          ),
-          Material(
-            borderRadius: isMe ?
-              BorderRadius.only(
-                topLeft: Radius.circular(30.0),
-                bottomLeft: Radius.circular(30.0),
-                bottomRight: Radius.circular(30.0)
-              ) :
-              BorderRadius.only(
-                  topRight: Radius.circular(30.0),
-                  bottomLeft: Radius.circular(30.0),
-                  bottomRight: Radius.circular(30.0)
-              ),
-            elevation: 5.0,
-            color: isMe ? Colors.lightBlueAccent : Colors.white,
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-              child: Text(
-                '$text',
-                style: TextStyle(
-                  color: isMe ? Colors.white :  Colors.black,
-                  fontSize: 15.0
-                )
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
