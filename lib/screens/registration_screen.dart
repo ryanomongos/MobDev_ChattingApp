@@ -3,6 +3,7 @@ import 'package:flash_chat/constants.dart';
 import 'package:flash_chat/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flash_chat/components/roundedButton.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -21,9 +22,11 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
 
   FirebaseAuth _auth = FirebaseAuth.instance;
+  final _formKey = GlobalKey<FormState>();
   bool showSpinner = false;
-  String email;
-  String password;
+  String _userEmail;
+  String _userPassword;
+
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +52,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               SizedBox(
                 height: 48.0,
               ),
+
               TextField(
                 keyboardType: TextInputType.emailAddress,
                 textAlign: TextAlign.center,
                 onChanged: (value) {
-                  email = value;
+                  _userEmail = value;
                 },
                 decoration: kTextFieldDecoration.copyWith(hintText: 'Enter your email'),
               ),
@@ -63,17 +67,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               TextFormField(
                 key: ValueKey('password'),
                 validator: (value) {
-                  if (value.isEmpty || value.length < 7) {
-                    return 'Password must be at least 7 characters long.';
-                  }
-                  return null;
+                  return (value.isEmpty || value.length < 7)
+                      ? 'Password must be at least 7 characters long'
+                      : null;
                 },
                 decoration: kTextFieldDecoration.copyWith(hintText: 'Enter your password'),
                 obscureText: true,
                 textAlign: TextAlign.center,
                 onChanged: (value) {
-                  password = value;
-                },
+                  _userPassword = value;
+                  },
               ),
               SizedBox(
                 height: 24.0,
@@ -86,13 +89,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       showSpinner = true;
                     });
                     try {
+
                       await _auth.createUserWithEmailAndPassword(
-                        email: email,
-                        password: password,
+                        email: _userEmail,
+                        password: _userPassword,
                       ).then((value){
                         _firestore.collection('users').doc(_auth.currentUser.uid).set({
-                          'email': email,
-                          'conversations': []
+                          'email': _userEmail,
+                          'conversations': [],
                         });
                         Navigator.pushNamed(context, HomeScreen.id);
                       });
