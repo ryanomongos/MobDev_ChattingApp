@@ -1,0 +1,17 @@
+-------------------- Auto-Git Log --------------------
+		Thu Feb 18 2021 18:07:01 GMT+0800 (Singapore Standard Time)
+------------------------------------------------------
+
+Modified files:
+* .flutter-plugins-dependencies
+* pubspec.lock
+
+
+Created files:
+* .autogit/logs/log-18-1-2021-17-36-43.txt
+
+
+Deleted files:
+
+
+Renamed files:
